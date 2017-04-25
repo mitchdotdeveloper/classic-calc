@@ -31,7 +31,7 @@ to the calculator object the user can interact with the object to receive the va
 
 
 ## Scope
-> - Take layout from finished v0.1 and implement the following:
+ - Take layout from finished v0.1 and implement the following:
     - Insert a link to the following javascript files
         - jQuery's latest version
         - http://Learning-Fuze.github.io/calculator/calculator.js
