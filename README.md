@@ -1,8 +1,8 @@
 # Version 0.5
 
 ## Description
-Version 0.5 adds in user functionality without needing to write the underneath logic of a calculator. With the introduction
-to the calculator object the user can interact with the object to receive the values after calculation has been completed.
+Version 0.5 adds in the user functionality / logic of a calculator. This version introduces the basic operations that a calculator
+can complete and ties this functionality together with click events for you to interact with on the DOM.
 
 ## Getting Started
 > 1. What branch do you have your latest changes on?
@@ -34,87 +34,24 @@ to the calculator object the user can interact with the object to receive the va
  - Take layout from finished v0.1 and implement the following:
     - Insert a link to the following javascript files
         - jQuery's latest version
-        - http://Learning-Fuze.github.io/calculator/calculator.js
     - JS Functionality
-        - Declare and define a function that takes in 3 parameters
+        - Declare and define a function called, `do_math`, that takes in 3 parameters
             - **Parameters**
-                - type - will be a string equal to one of the following
-                    - "itemAdded"
-                    - "calculated"
-                    - "error"
-                - value - either a string or a number
-                - item - **Only use for advanced functionality** Object of different types
-            - Take the value and display in the correct layout area within the DOM
-                - The display of the calculation will be up to each students interpretation of how a calculator should look. **If you need ideas
-                look at your calculator on your phone.**
-        - Create a new global variable **my_calculator** with the value defined as `new calculator(newFunc)` where newFunc is equal to the referenced function defined above
-        - Add click handlers to all buttons in the DOM, when called they do the following
-            - Defines a variable **val** equal to the value of the button pressed.
-                - **Example : ** if "=" button was pressed then the value of the variable above would be a string "=";
-            - Insert the following into the click handler function `my_calculator.addItem(val)`. Once this is called the function that was passed into the calculator object above will be called with parameters dependant on the value of the variable val
+                - `num1` - first number used in a calculation
+                - `num2` - second number used in a calculation
+                - `operator` - operator that will determine what type of calcuation will be made
+            - This function will be used to handle the basic calculations once two numbers and an operator have been registered
+        - Add click handlers to all buttons in the DOM. When clicked a function will be called that will do the following:
+            - Numbers `(0-9)` will be stored in an array, concatenating with previous numbers if appropriate,and be displayed on the DOM
+            - Operators `(+, -, *, /)` will be stored in an array and be displayed on the DOM
+            - Equal `(=)` will call the function that will perform the calcuation of the given expression
+        - Take the value and display in the correct layout area within the DOM
+            - The display of the calculation will be up to each students interpretation of how a calculator should look. **If you need ideas
+            look at your calculator on your phone.**
 
 ## Example
 
 #### <a href="http://Learning-Fuze.github.io/calculator/" target="_blank">View Demo</a>
 
-#### Code Example
-```
-<script>
-        //callback function defined
-        function callback(type, value, item) {
-            switch (value) {
-                case undefined:
-                    $('#display_area').html("");
-                    break;
-                default:
-                    $('#display_area').html(value);
-                    break;
-            }
-        }
-        // my_calculator - creates a new calculator object
-        var my_calculator = new calculator(callback);
-        //after DOM load add click handlers to all buttons
-        $(document).ready(function () {
-            $('button').on('click', function () {
-                var val = $(this).text();
-                switch (val) {
-                    case 'AC':
-                        my_calculator.allClear();
-                        break;
-                    default:
-                        my_calculator.addItem($(this).text());
-                        break;
-                }
-            });
-        })
-    </script>
-    <style>
-        #display_area {
-            width: 300px;
-            height: 30px;
-            background-color: #cccccc;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-<div id="display_area"></div>
-<div id="buttonContainer">
-    <div>
-        <button>1</button>
-    </div>
-    <div>
-        <button>2</button>
-    </div>
-    <div>
-        <button>+</button>
-    </div>
-    <div>
-        <button>=</button>
-    </div>
-    <div>
-        <button>AC</button>
-    </div>
-</div>
-</body>
-```
+#### <a href="https://docs.google.com/spreadsheets/u/1/d/1HRpRqdyQrax5vgwrVatcOxSxly6GHXXfZuzc0lb9Tfg/pubhtml#" target="_blank">Calculator Testing Sheet</a>
+
