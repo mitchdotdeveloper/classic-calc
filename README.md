@@ -1,8 +1,7 @@
 # Version 1.0
 
 ## Description
-Version 1 takes the layout and basic button click functionality built in the 2 previous versions and then ties in the calculation functionality. This version works toward more OOP understandings
-by taking the inputs from the calculator and inserting them into objects and then those objects into an array.
+Version 1 takes the layout and basic button click functionality built in the 2 previous versions and then ties in advanced calculation functionality. This version works toward different logical thought processes that you will be approaching from the provided testing sheet.
 
 ## Getting Started
 > 1. What branch do you have your latest changes on?
@@ -31,10 +30,10 @@ by taking the inputs from the calculator and inserting them into objects and the
 
 
 ## Scope
-> - JS Functionality
-    - Add values from the buttons clicked into plain object that has the following properties
-        - type - equal to one of these types "number","operator","equalSign"
-        - value - equal to the value of the button
-    - Add object into an global array variable
-    - Process calculation based on objects in array
-> - Calculator Logic Examples with outputted values found <a href="https://docs.google.com/spreadsheets/d/1HRpRqdyQrax5vgwrVatcOxSxly6GHXXfZuzc0lb9Tfg/pubhtml#">here</a>
+- JS Functionality
+    - Add additional click handlers to the following buttons on the DOM. When clicked a function will be called that will do the following:
+        - Decimal `(.)` will be stored in an array and be displayed on the DOM
+        - Clear Entry `(CE)` will clear ONE number or operator from our storage array and remove that value from the end of the calculator display
+        - Clear `(C)` will completely clear all the operands and operators that are stored in an array and clear the values off of the calculator display
+- Calculator Logic Examples with outputted values found: 
+    - #### <a href="https://docs.google.com/spreadsheets/d/1HRpRqdyQrax5vgwrVatcOxSxly6GHXXfZuzc0lb9Tfg/pubhtml#">HERE</a>
