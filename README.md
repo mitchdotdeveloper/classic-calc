@@ -33,7 +33,7 @@ Version 1 takes the layout and basic button click functionality built in the 2 p
 - JS Functionality
     - Add additional click handlers to the following buttons on the DOM. When clicked a function will be called that will do the following:
         - Decimal `(.)` will be stored in an array and be displayed on the DOM
-        - Clear Entry `(CE)` will clear ONE number or operator from our storage array and remove that value from the end of the calculator display
+        - Clear Entry `(CE)` will clear ONE (the last) number from our storage array and replace that value with a `0` on the display
         - Clear `(C)` will completely clear all the operands and operators that are stored in an array and clear the values off of the calculator display
 - Calculator Logic Examples with outputted values found: 
     - #### <a href="https://docs.google.com/spreadsheets/d/1HRpRqdyQrax5vgwrVatcOxSxly6GHXXfZuzc0lb9Tfg/pubhtml#">HERE</a>
