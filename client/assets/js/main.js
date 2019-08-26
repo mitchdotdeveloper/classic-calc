@@ -16,7 +16,11 @@ function applyClickHandlers () {
 }
 
 function numberButtonHandler (event) {
-  console.log(event);
+  var inputtedNumber = '';
+  inputtedNumber = $(event.currentTarget).find('p').text();
+  stringNumberToPush += inputtedNumber;
+  displayArray.push(inputtedNumber);
+  updateDisplay();
 }
 
 function operatorButtonHandler(event) {
@@ -25,4 +29,9 @@ function operatorButtonHandler(event) {
 
 function equalsButtonHandler(event) {
   console.log(event);
+}
+
+function updateDisplay () {
+  var displayText = displayArray.join('');
+  $('#display-text').text(displayText);
 }
