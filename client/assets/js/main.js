@@ -10,37 +10,55 @@ function initializeApp () {
 }
 
 function applyClickHandlers () {
+  $('#c-button').on('click', clearButtonHandler);
+  $('#ac-button').on('click', clearButtonHandler);
   $('#number-block').on('click', '.number', numberButtonHandler);
   $('#operator-column').on('click', '.operator', operatorButtonHandler);
   $('#equals').on('click', equalsButtonHandler);
 }
 
+function clearButtonHandler (event) {
+  var inputtedClear = $(event.currentTarget).find('p').text();
+  if (inputtedClear === 'AC') {
+    calculationArray = [];
+    stringNumberToPush = '';
+    calculationResult = null;
+  }
+  displayArray = [];
+  updateDisplay();
+}
+
 function numberButtonHandler (event) {
-  var inputtedNumber = '';
-  inputtedNumber = $(event.currentTarget).find('p').text();
+  var inputtedNumber = $(event.currentTarget).find('p').text();
   stringNumberToPush += inputtedNumber;
+
   displayArray.push(inputtedNumber);
+
   updateDisplay();
 }
 
 function operatorButtonHandler(event) {
-  var inputtedOperator = '';
-  inputtedOperator = $(event.currentTarget).find('p').text();
+  var inputtedOperator = $(event.currentTarget).find('p').text();
   displayArray.push(inputtedOperator);
+
   updateDisplay();
+
   calculationArray.push(stringNumberToPush);
   calculationArray.push(inputtedOperator);
+
   stringNumberToPush = '';
 }
 
 function equalsButtonHandler(event) {
   calculationArray.push(stringNumberToPush);
+
   stringNumberToPush = '';
   displayArray = [];
 
   var answer = calculate(calculationArray[0], calculationArray[2], calculationArray[1]);
 
   displayArray.push(answer);
+
   updateDisplay();
 }
 
@@ -68,5 +86,6 @@ function calculate (num1, num2, operator) {
       result = number1 / number2;
       break;
   }
+
   return result;
 }
