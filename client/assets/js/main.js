@@ -39,7 +39,9 @@ function equalsButtonHandler(event) {
   displayArray = [];
 
   var answer = calculate(calculationArray[0], calculationArray[2], calculationArray[1]);
-  console.log(answer);
+
+  displayArray.push(answer);
+  updateDisplay();
 }
 
 function updateDisplay () {
