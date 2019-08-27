@@ -1,5 +1,7 @@
 $(document).ready(initializeApp);
 
+// var possibleOperands = '+-*/';
+var lastOperation = [];
 var calculationArray = [];
 var displayArray = [];
 var stringNumberToPush = '';
@@ -13,6 +15,7 @@ function applyClickHandlers () {
   $('#c-button').on('click', clearButtonHandler);
   $('#ac-button').on('click', clearButtonHandler);
   $('#number-block').on('click', '.number', numberButtonHandler);
+  $('#number-block').on('click', '.decimal', numberButtonHandler);
   $('#operator-column').on('click', '.operator', operatorButtonHandler);
   $('#equals').on('click', equalsButtonHandler);
 }
@@ -23,41 +26,71 @@ function clearButtonHandler (event) {
     calculationArray = [];
     stringNumberToPush = '';
     calculationResult = null;
+    displayArray = [];
+    lastOperation = [];
+  } else {
+    displayArray.pop();
   }
-  displayArray = [];
   updateDisplay();
 }
 
 function numberButtonHandler (event) {
   var inputtedNumber = $(event.currentTarget).find('p').text();
-  stringNumberToPush += inputtedNumber;
 
-  displayArray.push(inputtedNumber);
+  if (stringNumberToPush[stringNumberToPush.length-1] !== '.') {
+    stringNumberToPush += inputtedNumber;
+    displayArray.push(inputtedNumber);
 
-  updateDisplay();
+    updateDisplay();
+  }
+
+  lastOperation = [];
 }
 
 function operatorButtonHandler(event) {
   var inputtedOperator = $(event.currentTarget).find('p').text();
-  displayArray.push(inputtedOperator);
 
-  updateDisplay();
+  if(!displayArray.length) {
+    return;
+  }
 
-  calculationArray.push(stringNumberToPush);
-  calculationArray.push(inputtedOperator);
+  if ('+-*/'.includes(displayArray[displayArray.length-1])) {
+    displayArray.pop();
+    calculationArray.pop();
+  }
+    displayArray.push(inputtedOperator);
 
-  stringNumberToPush = '';
+    updateDisplay();
+
+    if(stringNumberToPush) {
+     calculationArray.push(stringNumberToPush);
+    }
+    calculationArray.push(inputtedOperator);
+
+    stringNumberToPush = '';
+    lastOperation = [];
 }
 
-function equalsButtonHandler(event) {
-  calculationArray.push(stringNumberToPush);
+function equalsButtonHandler() {
+
+  if (calculationArray.length && !lastOperation.length) {
+    lastOperation.push(calculationArray[calculationArray.length - 1], stringNumberToPush);
+  }
+
+  if (calculationResult && lastOperation.length) {
+    calculationArray = [];
+    calculationArray.push(calculationResult, lastOperation[0], lastOperation[1]);
+  } else {
+    calculationArray.push(stringNumberToPush);
+  }
 
   stringNumberToPush = '';
   displayArray = [];
 
-  var answer = calculate(calculationArray[0], calculationArray[2], calculationArray[1]);
+  calculationResult = solve();
 
-  displayArray.push(answer);
+  displayArray.push(calculationResult);
+  calculationArray = [];
 
   updateDisplay();
 }
@@ -65,6 +98,37 @@ function equalsButtonHandler(event) {
 function updateDisplay () {
   var displayText = displayArray.join('');
   $('#display-text').text(displayText);
+}
+
+function solve () {
+  for (var multDivIndex = 1; multDivIndex < calculationArray.length; ++multDivIndex) {
+    if (calculationArray[ multDivIndex ] === '*' ||
+        calculationArray[ multDivIndex ] === '/') {
+      if (!calculationArray[multDivIndex + 1]) {
+        calculationArray[multDivIndex + 1] = calculate(calculationArray[multDivIndex - 1], calculationArray[multDivIndex - 1], calculationArray[multDivIndex]);
+      } else {
+        calculationArray[multDivIndex + 1] = calculate(calculationArray[multDivIndex - 1], calculationArray[multDivIndex + 1], calculationArray[multDivIndex]);
+      }
+      calculationArray.splice(multDivIndex - 1, 2);
+      --multDivIndex;
+    }
+  }
+
+  for (var addSubIndex = 1; addSubIndex < calculationArray.length; ++addSubIndex) {
+    if (calculationArray[ addSubIndex ] === '+' ||
+      calculationArray[ addSubIndex ] === '-') {
+      if (!calculationArray[addSubIndex + 1]) {
+        calculationArray[addSubIndex + 1] = calculate(calculationArray[addSubIndex - 1], calculationArray[addSubIndex - 1], calculationArray[addSubIndex]);
+      } else {
+        calculationArray[addSubIndex + 1] = calculate(calculationArray[addSubIndex - 1], calculationArray[addSubIndex + 1], calculationArray[addSubIndex]);
+      }
+      calculationArray.splice(addSubIndex - 1, 2);
+      --addSubIndex;
+    }
+  }
+
+  stringNumberToPush += calculationArray[0];
+  return calculationArray[0];
 }
 
 function calculate (num1, num2, operator) {
@@ -84,6 +148,9 @@ function calculate (num1, num2, operator) {
       break;
     case '/':
       result = number1 / number2;
+      if (result == 'Infinity') {
+        result = 'Error';
+      }
       break;
   }
 
