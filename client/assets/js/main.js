@@ -47,7 +47,14 @@ function numberButtonHandler (event) {
 function operatorButtonHandler(event) {
   var inputtedOperator = $(event.currentTarget).find('p').text();
 
-  if (!possibleOperands.includes(displayArray[displayArray.length-1])) {
+  if(!displayArray.length) {
+    return;
+  }
+
+  if (possibleOperands.includes(displayArray[displayArray.length-1])) {
+    displayArray.pop();
+    calculationArray.pop();
+  }
     displayArray.push(inputtedOperator);
 
     updateDisplay();
@@ -58,10 +65,9 @@ function operatorButtonHandler(event) {
     calculationArray.push(inputtedOperator);
 
     stringNumberToPush = '';
-  }
 }
 
-function equalsButtonHandler(event) {
+function equalsButtonHandler() {
   calculationArray.push(stringNumberToPush);
 
   stringNumberToPush = '';
@@ -86,16 +92,24 @@ function solve () {
   for (var multDivIndex = 1; multDivIndex < calculationArray.length; ++multDivIndex) {
     if (calculationArray[ multDivIndex ] === '*' ||
         calculationArray[ multDivIndex ] === '/') {
-      calculationArray[multDivIndex + 1] = calculate(calculationArray[multDivIndex - 1], calculationArray[multDivIndex+1], calculationArray[multDivIndex]);
+      if (!calculationArray[multDivIndex + 1]) {
+        calculationArray[multDivIndex + 1] = calculate(calculationArray[multDivIndex - 1], calculationArray[multDivIndex - 1], calculationArray[multDivIndex]);
+      } else {
+        calculationArray[multDivIndex + 1] = calculate(calculationArray[multDivIndex - 1], calculationArray[multDivIndex + 1], calculationArray[multDivIndex]);
+      }
       calculationArray.splice(multDivIndex - 1, 2);
       --multDivIndex;
     }
   }
 
   for (var addSubIndex = 1; addSubIndex < calculationArray.length; ++addSubIndex) {
-    if (calculationArray[addSubIndex] === '+' ||
-      calculationArray[addSubIndex] === '-') {
-      calculationArray[addSubIndex + 1] = calculate(calculationArray[addSubIndex - 1], calculationArray[addSubIndex + 1], calculationArray[addSubIndex]);
+    if (calculationArray[ addSubIndex ] === '+' ||
+      calculationArray[ addSubIndex ] === '-') {
+      if (!calculationArray[addSubIndex + 1]) {
+        calculationArray[addSubIndex + 1] = calculate(calculationArray[addSubIndex - 1], calculationArray[addSubIndex - 1], calculationArray[addSubIndex]);
+      } else {
+        calculationArray[addSubIndex + 1] = calculate(calculationArray[addSubIndex - 1], calculationArray[addSubIndex + 1], calculationArray[addSubIndex]);
+      }
       calculationArray.splice(addSubIndex - 1, 2);
       --addSubIndex;
     }
