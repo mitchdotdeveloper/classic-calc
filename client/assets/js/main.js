@@ -1,6 +1,5 @@
 $(document).ready(initializeApp);
 
-// var possibleOperands = '+-*/';
 var lastOperation = [];
 var calculationArray = [];
 var displayArray = [];
@@ -17,6 +16,7 @@ function applyClickHandlers () {
   $('#number-block').on('click', '.number', numberButtonHandler);
   $('#number-block').on('click', '.decimal', numberButtonHandler);
   $('#operator-column').on('click', '.operator', operatorButtonHandler);
+  $('.negative').on('click', negativeButtonHandler);
   $('#equals').on('click', equalsButtonHandler);
 }
 
@@ -59,17 +59,30 @@ function operatorButtonHandler(event) {
     displayArray.pop();
     calculationArray.pop();
   }
-    displayArray.push(inputtedOperator);
 
-    updateDisplay();
+  displayArray.push(inputtedOperator);
 
-    if(stringNumberToPush) {
-     calculationArray.push(stringNumberToPush);
-    }
-    calculationArray.push(inputtedOperator);
+  updateDisplay();
 
+  if(stringNumberToPush) {
+    calculationArray.push(stringNumberToPush);
+  }
+  calculationArray.push(inputtedOperator);
+
+  stringNumberToPush = '';
+  lastOperation = [];
+}
+
+function negativeButtonHandler () {
+  if(stringNumberToPush[stringNumberToPush.length-1] === '-') {
     stringNumberToPush = '';
-    lastOperation = [];
+    displayArray.pop();
+  } else if (!stringNumberToPush.length || '+-*/'.includes(stringNumberToPush[stringNumberToPush.length-1])){
+    stringNumberToPush += '-';
+    displayArray.push('-');
+  }
+
+  updateDisplay();
 }
 
 function equalsButtonHandler() {

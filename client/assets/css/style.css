@@ -80,7 +80,7 @@ body * {
     top: 36px;
     left: 7.5%;
 }
-.operator {
+.operator, .negate {
     position: relative;
     margin-top: 3px;
     height: 24%;
