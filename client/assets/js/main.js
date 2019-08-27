@@ -88,7 +88,10 @@ function equalsButtonHandler() {
   displayArray = [];
 
   calculationResult = solve();
-
+  if (calculationResult == 'Infinity' ||
+      calculationResult == '-Infinity') {
+    calculationResult = 'Error';
+  }
   displayArray.push(calculationResult);
   calculationArray = [];
 
@@ -148,9 +151,6 @@ function calculate (num1, num2, operator) {
       break;
     case '/':
       result = number1 / number2;
-      if (result == 'Infinity') {
-        result = 'Error';
-      }
       break;
   }
 
