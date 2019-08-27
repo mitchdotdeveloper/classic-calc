@@ -13,6 +13,7 @@ function applyClickHandlers () {
   $('#c-button').on('click', clearButtonHandler);
   $('#ac-button').on('click', clearButtonHandler);
   $('#number-block').on('click', '.number', numberButtonHandler);
+  $('#number-block').on('click', '.decimal', numberButtonHandler);
   $('#operator-column').on('click', '.operator', operatorButtonHandler);
   $('#equals').on('click', equalsButtonHandler);
 }
@@ -23,8 +24,10 @@ function clearButtonHandler (event) {
     calculationArray = [];
     stringNumberToPush = '';
     calculationResult = null;
+    displayArray = [];
+  } else {
+    displayArray.pop();
   }
-  displayArray = [];
   updateDisplay();
 }
 
