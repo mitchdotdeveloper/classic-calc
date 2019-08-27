@@ -1,5 +1,6 @@
 $(document).ready(initializeApp);
 
+var possibleOperands = '+-*/';
 var calculationArray = [];
 var displayArray = [];
 var stringNumberToPush = '';
@@ -27,29 +28,37 @@ function clearButtonHandler (event) {
     displayArray = [];
   } else {
     displayArray.pop();
+    calculationArray.pop();
   }
   updateDisplay();
 }
 
 function numberButtonHandler (event) {
   var inputtedNumber = $(event.currentTarget).find('p').text();
-  stringNumberToPush += inputtedNumber;
 
-  displayArray.push(inputtedNumber);
+  if (stringNumberToPush[stringNumberToPush.length-1] !== '.') {
+    stringNumberToPush += inputtedNumber;
+    displayArray.push(inputtedNumber);
 
-  updateDisplay();
+    updateDisplay();
+  }
 }
 
 function operatorButtonHandler(event) {
   var inputtedOperator = $(event.currentTarget).find('p').text();
-  displayArray.push(inputtedOperator);
 
-  updateDisplay();
+  if (!possibleOperands.includes(displayArray[displayArray.length-1])) {
+    displayArray.push(inputtedOperator);
 
-  calculationArray.push(stringNumberToPush);
-  calculationArray.push(inputtedOperator);
+    updateDisplay();
 
-  stringNumberToPush = '';
+    if(stringNumberToPush) {
+     calculationArray.push(stringNumberToPush);
+    }
+    calculationArray.push(inputtedOperator);
+
+    stringNumberToPush = '';
+  }
 }
 
 function equalsButtonHandler(event) {
@@ -59,6 +68,9 @@ function equalsButtonHandler(event) {
   displayArray = [];
 
   calculationResult = solve();
+  if (calculationResult == 'Infinity') {
+    calculationResult = 'Error';
+  }
   displayArray.push(calculationResult);
   calculationArray = [];
 
