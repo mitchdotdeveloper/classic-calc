@@ -1,6 +1,7 @@
 $(document).ready(initializeApp);
 
 var possibleOperands = '+-*/';
+var lastOperation = [];
 var calculationArray = [];
 var displayArray = [];
 var stringNumberToPush = '';
@@ -26,9 +27,9 @@ function clearButtonHandler (event) {
     stringNumberToPush = '';
     calculationResult = null;
     displayArray = [];
+    lastOperation = [];
   } else {
     displayArray.pop();
-    calculationArray.pop();
   }
   updateDisplay();
 }
@@ -42,6 +43,8 @@ function numberButtonHandler (event) {
 
     updateDisplay();
   }
+
+  lastOperation = [];
 }
 
 function operatorButtonHandler(event) {
@@ -65,10 +68,21 @@ function operatorButtonHandler(event) {
     calculationArray.push(inputtedOperator);
 
     stringNumberToPush = '';
+    lastOperation = [];
 }
 
 function equalsButtonHandler() {
-  calculationArray.push(stringNumberToPush);
+
+  if (calculationArray.length && !lastOperation.length) {
+    lastOperation.push(calculationArray[calculationArray.length - 1], stringNumberToPush);
+  }
+
+  if (calculationResult && lastOperation.length) {
+    calculationArray = [];
+    calculationArray.push(calculationResult, lastOperation[0], lastOperation[1]);
+  } else {
+    calculationArray.push(stringNumberToPush);
+  }
 
   stringNumberToPush = '';
   displayArray = [];
