@@ -58,9 +58,9 @@ function equalsButtonHandler(event) {
   stringNumberToPush = '';
   displayArray = [];
 
-  var answer = calculate(calculationArray[0], calculationArray[2], calculationArray[1]);
-
-  displayArray.push(answer);
+  calculationResult = solve();
+  displayArray.push(calculationResult);
+  calculationArray = [];
 
   updateDisplay();
 }
@@ -68,6 +68,29 @@ function equalsButtonHandler(event) {
 function updateDisplay () {
   var displayText = displayArray.join('');
   $('#display-text').text(displayText);
+}
+
+function solve () {
+  for (var multDivIndex = 1; multDivIndex < calculationArray.length; ++multDivIndex) {
+    if (calculationArray[ multDivIndex ] === '*' ||
+        calculationArray[ multDivIndex ] === '/') {
+      calculationArray[multDivIndex + 1] = calculate(calculationArray[multDivIndex - 1], calculationArray[multDivIndex+1], calculationArray[multDivIndex]);
+      calculationArray.splice(multDivIndex - 1, 2);
+      --multDivIndex;
+    }
+  }
+
+  for (var addSubIndex = 1; addSubIndex < calculationArray.length; ++addSubIndex) {
+    if (calculationArray[addSubIndex] === '+' ||
+      calculationArray[addSubIndex] === '-') {
+      calculationArray[addSubIndex + 1] = calculate(calculationArray[addSubIndex - 1], calculationArray[addSubIndex + 1], calculationArray[addSubIndex]);
+      calculationArray.splice(addSubIndex - 1, 2);
+      --addSubIndex;
+    }
+  }
+
+  stringNumberToPush += calculationArray[0];
+  return calculationArray[0];
 }
 
 function calculate (num1, num2, operator) {
