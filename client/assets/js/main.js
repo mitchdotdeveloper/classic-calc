@@ -1,6 +1,6 @@
 $(document).ready(initializeApp);
 
-var possibleOperands = '+-*/';
+// var possibleOperands = '+-*/';
 var lastOperation = [];
 var calculationArray = [];
 var displayArray = [];
@@ -54,7 +54,7 @@ function operatorButtonHandler(event) {
     return;
   }
 
-  if (possibleOperands.includes(displayArray[displayArray.length-1])) {
+  if ('+-*/'.includes(displayArray[displayArray.length-1])) {
     displayArray.pop();
     calculationArray.pop();
   }
