@@ -37,7 +37,8 @@ function clearButtonHandler (event) {
 function numberButtonHandler (event) {
   var inputtedNumber = $(event.currentTarget).find('p').text();
 
-  if (stringNumberToPush[stringNumberToPush.length-1] !== '.') {
+  if (stringNumberToPush[stringNumberToPush.length-1] !== '.' ||
+      inputtedNumber !== '.') {
     stringNumberToPush += inputtedNumber;
     displayArray.push(inputtedNumber);
 
