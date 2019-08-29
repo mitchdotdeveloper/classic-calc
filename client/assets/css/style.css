@@ -1,28 +1,43 @@
 body {
   display: flex;
   justify-content: flex-end;
+  flex-flow: row wrap;
   align-items: center;
   background-color: black;
   background-image: url('../desk-background.jpeg ');
-  background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
   margin: 0;
 }
 
-.calculator {
-  position: absolute;
+.calculator, .log {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   height: 60vh;
   width: 40vh;
-  right: 20vw;
+  margin-right: 10vw;
   padding-top: 2vh;
   background-color: rgb(209, 166, 124);
   box-shadow: 15px 50px 15px  rgba(0, 0, 0, 0.445);
   border-radius: 15px;
+}
+
+.log {
+  flex-flow: column nowrap;
+  overflow: auto;
+  text-align: center;
+  margin-left: -10vw;
+  color: white;
+  background-color: rgba(0, 0, 0, .75);
+  transition: all 0.5s ease-in-out
+}
+
+.hide-log {
+  background-color: transparent;
+  width: 0;
+  font-size: 0;
 }
 
 .display {
@@ -78,9 +93,8 @@ body {
 }
 
 .number, .point, .equal {
-font-weight: 700;
-font-family: 'Chathura', sans-serif;
-
+  font-weight: 700;
+  font-family: 'Chathura', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,8 +108,6 @@ font-family: 'Chathura', sans-serif;
 }
 
 .operands {
-  position: relative;
-  top: 0vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

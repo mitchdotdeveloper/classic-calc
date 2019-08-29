@@ -3,6 +3,7 @@ $(document).ready(initializeApp);
 var lastOperation = [];
 var calculationArray = [];
 var displayArray = [];
+var calculationHistory = [];
 var stringNumberToPush = '';
 var calculationResult = null;
 
@@ -12,6 +13,7 @@ function initializeApp() {
 
 function applyClickHandlers() {
   $('.clear').on('click', '.c-clear, .ac-clear', clearButtonHandler);
+  $('.history').on('click', historyButtonHandler);
   $('.number-pad').on('click', '.number, .point', numberButtonHandler);
   $('.operands').on('click', '.operator', operatorButtonHandler);
   $('.pos-neg').on('click', negativeButtonHandler);
@@ -22,6 +24,8 @@ function clearButtonHandler(event) {
   var inputtedClear = $(event.currentTarget).text();
   if (inputtedClear === 'AC') {
     calculationArray = [];
+    calculationHistory = [];
+    $('.log').empty();
     stringNumberToPush = '';
     calculationResult = null;
     displayArray = [];
@@ -31,6 +35,14 @@ function clearButtonHandler(event) {
     stringNumberToPush = stringNumberToPush.slice(0, -1);
   }
   updateDisplay();
+}
+
+function historyButtonHandler () {
+  if ($('.log').hasClass('hide-log')) {
+    $('.log').removeClass('hide-log');
+  } else {
+    $('.log').addClass('hide-log');
+  }
 }
 
 function numberButtonHandler(event) {
@@ -57,6 +69,7 @@ function operatorButtonHandler(event) {
   if ('+-*/'.includes(displayArray[displayArray.length - 1])) {
     displayArray.pop();
     calculationArray.pop();
+    calculationHistory.pop();
   }
 
   displayArray.push(inputtedOperator);
@@ -65,8 +78,10 @@ function operatorButtonHandler(event) {
 
   if (stringNumberToPush) {
     calculationArray.push(stringNumberToPush);
+    calculationHistory.push(stringNumberToPush + ' ');
   }
   calculationArray.push(inputtedOperator);
+  calculationHistory.push(inputtedOperator + ' ');
 
   stringNumberToPush = '';
   lastOperation = [];
@@ -85,6 +100,9 @@ function negativeButtonHandler() {
 }
 
 function equalsButtonHandler() {
+  if (!calculationArray.length && !lastOperation.length) {
+    return;
+  }
 
   if (calculationArray.length && !lastOperation.length) {
     lastOperation.push(calculationArray[calculationArray.length - 1], stringNumberToPush);
@@ -92,9 +110,11 @@ function equalsButtonHandler() {
 
   if (calculationResult && lastOperation.length) {
     calculationArray = [];
+    calculationHistory.push(calculationResult + ' ', lastOperation[0] + ' ', lastOperation[1]);
     calculationArray.push(calculationResult, lastOperation[0], lastOperation[1]);
   } else {
     calculationArray.push(stringNumberToPush);
+    calculationHistory.push(stringNumberToPush + ' ');
   }
 
   stringNumberToPush = '';
@@ -105,15 +125,25 @@ function equalsButtonHandler() {
     calculationResult == '-Infinity') {
     calculationResult = 'Error';
   }
+
+  calculationHistory.push(' = ' + calculationResult);
   displayArray.push(calculationResult);
   calculationArray = [];
 
   updateDisplay();
+  updateHistory();
 }
 
 function updateDisplay() {
   var displayText = displayArray.join('');
   $('.display').text(displayText);
+}
+
+function updateHistory () {
+  var logEntry = $('<p>');
+  logEntry.text(calculationHistory.join(''));
+  $('.log').append(logEntry)
+  calculationHistory = [];
 }
 
 function solve() {
