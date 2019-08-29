@@ -42,14 +42,16 @@ body {
 
 .display {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
   height: 10vh;
   width: 96%;
+  overflow: hidden;
   color: white;
   font-family: 'Chathura', sans-serif;
   font-weight: 700;
   font-size: 11vh;
+  text-align: right;
+  direction: rtl;
   background-color: rgb(21, 20, 20);
 }
 
@@ -136,4 +138,8 @@ body {
 .number:hover, .point:hover, .equal:hover,
 .operator:hover, .pos-neg:hover {
   transform: scale(1.1);
+}
+
+.operator-selected {
+  background-color: rgb(154, 154, 154);
 }
