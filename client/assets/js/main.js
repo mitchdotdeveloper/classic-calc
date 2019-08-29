@@ -1,11 +1,11 @@
 $(document).ready(initializeApp);
 
-var lastOperation = [];
-var calculationArray = [];
 var displayArray = [];
-var calculationHistory = [];
 var stringNumberToPush = '';
 var calculationResult = null;
+var lastOperation = [];
+var calculationArray = [];
+var calculationHistory = [];
 
 function initializeApp() {
   applyClickHandlers();
@@ -71,7 +71,6 @@ function operatorButtonHandler(event) {
     calculationArray.pop();
     calculationHistory.pop();
   }
-
   displayArray.push(inputtedOperator);
 
   updateDisplay();
@@ -136,6 +135,7 @@ function equalsButtonHandler() {
 
 function updateDisplay() {
   var displayText = displayArray.join('');
+  console.log(displayText)
   $('.display').text(displayText);
 }
 
