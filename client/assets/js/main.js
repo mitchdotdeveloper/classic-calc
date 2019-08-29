@@ -48,6 +48,8 @@ function historyButtonHandler () {
 function numberButtonHandler(event) {
   var inputtedNumber = $(event.currentTarget).text();
 
+  $('.operator').removeClass('operator-selected');
+
   if (stringNumberToPush[stringNumberToPush.length - 1] !== '.' ||
     inputtedNumber !== '.') {
     stringNumberToPush += inputtedNumber;
@@ -66,14 +68,21 @@ function operatorButtonHandler(event) {
     return;
   }
 
+  $('.operator').removeClass('operator-selected');
+
   if ('+-*/'.includes(displayArray[displayArray.length - 1])) {
-    displayArray.pop();
+    // $('.operator').removeClass('operator-selected');
+    // displayArray.pop();
     calculationArray.pop();
     calculationHistory.pop();
   }
-  displayArray.push(inputtedOperator);
 
+  $(event.currentTarget).addClass('operator-selected');
+  // displayArray.push(inputtedOperator);
+
+  displayArray = [];
   updateDisplay();
+
 
   if (stringNumberToPush) {
     calculationArray.push(stringNumberToPush);
@@ -103,12 +112,15 @@ function equalsButtonHandler() {
     return;
   }
 
+  $('.operator').removeClass('operator-selected');
+
   if (calculationArray.length && !lastOperation.length) {
     lastOperation.push(calculationArray[calculationArray.length - 1], stringNumberToPush);
   }
 
   if (calculationResult && lastOperation.length) {
     calculationArray = [];
+    calculationHistory = [];
     calculationHistory.push(calculationResult + ' ', lastOperation[0] + ' ', lastOperation[1]);
     calculationArray.push(calculationResult, lastOperation[0], lastOperation[1]);
   } else {
@@ -135,7 +147,6 @@ function equalsButtonHandler() {
 
 function updateDisplay() {
   var displayText = displayArray.join('');
-  console.log(displayText)
   $('.display').text(displayText);
 }
 
