@@ -26,6 +26,7 @@ function clearButtonHandler(event) {
     calculationArray = [];
     calculationHistory = [];
     $('.log').empty();
+    $('.operator').removeClass('operator-selected');
     stringNumberToPush = '';
     calculationResult = null;
     displayArray = [];
@@ -53,8 +54,8 @@ function numberButtonHandler(event) {
   if (stringNumberToPush[stringNumberToPush.length - 1] !== '.' ||
     inputtedNumber !== '.') {
     stringNumberToPush += inputtedNumber;
-    displayArray.push(inputtedNumber);
 
+    displayArray.push(inputtedNumber);
     updateDisplay();
   }
 
@@ -64,25 +65,21 @@ function numberButtonHandler(event) {
 function operatorButtonHandler(event) {
   var inputtedOperator = $(event.currentTarget).text();
 
-  if (!displayArray.length) {
+  if (!displayArray.length && !$('.operator').hasClass('operator-selected')) {
     return;
   }
 
   $('.operator').removeClass('operator-selected');
 
-  if ('+-*/'.includes(displayArray[displayArray.length - 1])) {
-    // $('.operator').removeClass('operator-selected');
-    // displayArray.pop();
+  if ('+-*/'.includes(calculationArray[calculationArray.length - 1])) {
     calculationArray.pop();
     calculationHistory.pop();
   }
 
   $(event.currentTarget).addClass('operator-selected');
-  // displayArray.push(inputtedOperator);
 
   displayArray = [];
   updateDisplay();
-
 
   if (stringNumberToPush) {
     calculationArray.push(stringNumberToPush);
@@ -191,22 +188,12 @@ function solve() {
 function calculate(num1, num2, operator) {
   var number1 = parseFloat(num1);
   var number2 = parseFloat(num2);
-  var result = null;
 
   switch (operator) {
-    case '+':
-      result = number1 + number2;
-      break;
-    case '-':
-      result = number1 - number2;
-      break;
-    case '*':
-      result = number1 * number2;
-      break;
-    case '/':
-      result = number1 / number2;
-      break;
+    case '+': return number1 + number2;
+    case '-': return number1 - number2;
+    case '*': return number1 * number2;
+    case '/': return number1 / number2;
   }
 
-  return result;
 }
