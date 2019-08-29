@@ -1,11 +1,11 @@
 $(document).ready(initializeApp);
 
-var lastOperation = [];
-var calculationArray = [];
 var displayArray = [];
-var calculationHistory = [];
 var stringNumberToPush = '';
 var calculationResult = null;
+var lastOperation = [];
+var calculationArray = [];
+var calculationHistory = [];
 
 function initializeApp() {
   applyClickHandlers();
@@ -26,6 +26,7 @@ function clearButtonHandler(event) {
     calculationArray = [];
     calculationHistory = [];
     $('.log').empty();
+    $('.operator').removeClass('operator-selected');
     stringNumberToPush = '';
     calculationResult = null;
     displayArray = [];
@@ -48,11 +49,13 @@ function historyButtonHandler () {
 function numberButtonHandler(event) {
   var inputtedNumber = $(event.currentTarget).text();
 
+  $('.operator').removeClass('operator-selected');
+
   if (stringNumberToPush[stringNumberToPush.length - 1] !== '.' ||
     inputtedNumber !== '.') {
     stringNumberToPush += inputtedNumber;
-    displayArray.push(inputtedNumber);
 
+    displayArray.push(inputtedNumber);
     updateDisplay();
   }
 
@@ -62,18 +65,20 @@ function numberButtonHandler(event) {
 function operatorButtonHandler(event) {
   var inputtedOperator = $(event.currentTarget).text();
 
-  if (!displayArray.length) {
+  if (!displayArray.length && !$('.operator').hasClass('operator-selected')) {
     return;
   }
 
-  if ('+-*/'.includes(displayArray[displayArray.length - 1])) {
-    displayArray.pop();
+  $('.operator').removeClass('operator-selected');
+
+  if ('+-*/'.includes(calculationArray[calculationArray.length - 1])) {
     calculationArray.pop();
     calculationHistory.pop();
   }
 
-  displayArray.push(inputtedOperator);
+  $(event.currentTarget).addClass('operator-selected');
 
+  displayArray = [];
   updateDisplay();
 
   if (stringNumberToPush) {
@@ -104,12 +109,15 @@ function equalsButtonHandler() {
     return;
   }
 
+  $('.operator').removeClass('operator-selected');
+
   if (calculationArray.length && !lastOperation.length) {
     lastOperation.push(calculationArray[calculationArray.length - 1], stringNumberToPush);
   }
 
   if (calculationResult && lastOperation.length) {
     calculationArray = [];
+    calculationHistory = [];
     calculationHistory.push(calculationResult + ' ', lastOperation[0] + ' ', lastOperation[1]);
     calculationArray.push(calculationResult, lastOperation[0], lastOperation[1]);
   } else {
@@ -180,22 +188,12 @@ function solve() {
 function calculate(num1, num2, operator) {
   var number1 = parseFloat(num1);
   var number2 = parseFloat(num2);
-  var result = null;
 
   switch (operator) {
-    case '+':
-      result = number1 + number2;
-      break;
-    case '-':
-      result = number1 - number2;
-      break;
-    case '*':
-      result = number1 * number2;
-      break;
-    case '/':
-      result = number1 / number2;
-      break;
+    case '+': return number1 + number2;
+    case '-': return number1 - number2;
+    case '*': return number1 * number2;
+    case '/': return number1 / number2;
   }
 
-  return result;
 }
