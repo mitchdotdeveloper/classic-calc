@@ -28,7 +28,6 @@ body {
   display: initial;
   overflow-y: auto;
   text-align: center;
-  padding-top: 0;
   margin-left: -10vw;
   background-color: rgba(0, 0, 0, .75);
   transition: all 0.5s ease-in-out

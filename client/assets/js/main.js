@@ -177,9 +177,13 @@ function solve() {
     if (calculationArray[multDivIndex] === '*' ||
       calculationArray[multDivIndex] === '/') {
       if (!calculationArray[multDivIndex + 1]) {
-        calculationArray[multDivIndex + 1] = calculate(calculationArray[multDivIndex - 1], calculationArray[multDivIndex - 1], calculationArray[multDivIndex]);
+        calculationArray[multDivIndex + 1] = calculate(calculationArray[multDivIndex - 1],
+                                                       calculationArray[multDivIndex - 1],
+                                                       calculationArray[multDivIndex]);
       } else {
-        calculationArray[multDivIndex + 1] = calculate(calculationArray[multDivIndex - 1], calculationArray[multDivIndex + 1], calculationArray[multDivIndex]);
+        calculationArray[multDivIndex + 1] = calculate(calculationArray[multDivIndex - 1],
+                                                       calculationArray[multDivIndex + 1],
+                                                       calculationArray[multDivIndex]);
       }
       calculationArray.splice(multDivIndex - 1, 2);
       --multDivIndex;
@@ -190,9 +194,13 @@ function solve() {
     if (calculationArray[addSubIndex] === '+' ||
       calculationArray[addSubIndex] === '-') {
       if (!calculationArray[addSubIndex + 1]) {
-        calculationArray[addSubIndex + 1] = calculate(calculationArray[addSubIndex - 1], calculationArray[addSubIndex - 1], calculationArray[addSubIndex]);
+        calculationArray[addSubIndex + 1] = calculate(calculationArray[addSubIndex - 1],
+                                                      calculationArray[addSubIndex - 1],
+                                                      calculationArray[addSubIndex]);
       } else {
-        calculationArray[addSubIndex + 1] = calculate(calculationArray[addSubIndex - 1], calculationArray[addSubIndex + 1], calculationArray[addSubIndex]);
+        calculationArray[addSubIndex + 1] = calculate(calculationArray[addSubIndex - 1],
+                                                      calculationArray[addSubIndex + 1],
+                                                      calculationArray[addSubIndex]);
       }
       calculationArray.splice(addSubIndex - 1, 2);
       --addSubIndex;
