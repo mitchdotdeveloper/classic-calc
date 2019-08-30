@@ -96,6 +96,12 @@ function negativeButtonHandler() {
   if (stringNumberToPush[stringNumberToPush.length - 1] === '-') {
     stringNumberToPush = '';
     displayArray.pop();
+  } else if (stringNumberToPush[0] === '-') {
+    displayArray[0] *= -1;
+    stringNumberToPush = stringNumberToPush.slice(1);
+  } else if (stringNumberToPush[0] !== '-') {
+    stringNumberToPush = '-' + stringNumberToPush;
+    displayArray.unshift('-');
   } else if (!stringNumberToPush.length || '+-*/'.includes(stringNumberToPush[stringNumberToPush.length - 1])) {
     stringNumberToPush += '-';
     displayArray.push('-');
@@ -116,13 +122,21 @@ function equalsButtonHandler() {
   }
 
   if (calculationResult && lastOperation.length) {
+
+    if (calculationArray[0] * -1 == calculationResult) {
+      calculationResult *= -1;
+    }
+
     calculationArray = [];
     calculationHistory = [];
+
     calculationHistory.push(calculationResult + ' ', lastOperation[0] + ' ', lastOperation[1]);
     calculationArray.push(calculationResult, lastOperation[0], lastOperation[1]);
+
   } else {
     calculationArray.push(stringNumberToPush);
     calculationHistory.push(stringNumberToPush + ' ');
+
   }
 
   stringNumberToPush = '';
