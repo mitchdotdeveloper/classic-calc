@@ -15,8 +15,8 @@ body {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  height: 60vh;
-  width: 40vh;
+  height: 65vh;
+  width: 45vh;
   margin-right: 10vw;
   padding-top: 2vh;
   background-color: rgb(209, 166, 124);
@@ -29,9 +29,15 @@ body {
   overflow: auto;
   text-align: center;
   margin-left: -10vw;
-  color: white;
   background-color: rgba(0, 0, 0, .75);
   transition: all 0.5s ease-in-out
+}
+
+.log p {
+  color: white;
+  font-family: 'Chathura', sans-serif;
+  font-size: 8vh;
+  margin: 0;
 }
 
 .hide-log {

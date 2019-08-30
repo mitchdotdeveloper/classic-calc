@@ -195,5 +195,4 @@ function calculate(num1, num2, operator) {
     case '*': return number1 * number2;
     case '/': return number1 / number2;
   }
-
 }
