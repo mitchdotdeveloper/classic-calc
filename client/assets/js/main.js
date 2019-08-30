@@ -158,18 +158,39 @@ function equalsButtonHandler() {
 
 function updateDisplay() {
   var displayText = displayArray.join('');
+  if (displayText.length >= 13) {
+    displayText = parseFloat(displayText).toExponential(3).toString();
+  }
   $('.display').text(displayText);
 }
 
 function updateHistory () {
   var logEntry = $('<p>');
-  logEntry.text(calculationHistory.join(''));
+
+  formatExponentialHistory();
+  var logText = calculationHistory.join('');
+
+  logEntry.text(logText);
   $('.log').append(logEntry)
 
   var log = document.querySelector('.log');
-  log.scrollTop = log.scrollHeight - Math.floor($('.log').height());
+  log.scrollTop = log.scrollHeight;
 
   calculationHistory = [];
+}
+
+function formatExponentialHistory () {
+  if (calculationHistory[calculationHistory.length - 1].length >= 14) {
+    if (calculationHistory[0].length >= 13) {
+      calculationHistory[0] = parseFloat(calculationHistory[0]).toExponential(3).toString() + ' ';
+    }
+    if (calculationHistory[2].length >= 13) {
+      calculationHistory[2] = parseFloat(calculationHistory[2]).toExponential(3).toString() + ' ';
+    }
+    calculationHistory[3] = calculationHistory[3].slice(2);
+    calculationHistory[3] = parseFloat(calculationHistory[3]).toExponential(3).toString();
+    calculationHistory[3] = '= ' + calculationHistory[3];
+  }
 }
 
 function solve() {

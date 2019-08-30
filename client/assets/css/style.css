@@ -21,6 +21,7 @@ body {
   padding-top: 2vh;
   background-color: rgb(92, 92, 92);
   box-shadow: 15px 50px 15px  rgba(0, 0, 0, 0.445);
+  border: 5px outset rgb(131, 131, 131);
   border-radius: 15px;
 }
 
@@ -30,6 +31,7 @@ body {
   text-align: center;
   margin-left: -10vw;
   background-color: rgba(0, 0, 0, .75);
+  border: none;
   transition: all 0.5s ease-in-out
 }
 
@@ -79,7 +81,7 @@ body {
   margin: auto;
   background-color: rgb(187, 187, 187);
   border-radius: 10px;
-  box-shadow: 6px 4px 8px  rgba(0,0,0,0.75);
+  box-shadow: 4px 4px rgba(34, 34, 34, 0.75);
   font-size: 5vh;
 }
 
@@ -111,7 +113,7 @@ body {
   margin: auto;
   background-color: rgb(187, 187, 187);
   border-radius: 10px;
-  box-shadow: 6px 4px 8px  rgba(0,0,0,0.75);
+  box-shadow: 4px 4px rgba(34, 34, 34, 0.75);
   font-size: 13vh;
 }
 
@@ -136,14 +138,15 @@ body {
   margin: auto;
   background-color: rgb(187, 187, 187);
   border-radius: 10px;
-  box-shadow: 6px 4px 8px  rgba(0,0,0,0.75);
+  box-shadow: 4px 4px rgba(34, 34, 34, 0.75);
   font-size: 13vh;
 }
 
 .c-clear:hover, .ac-clear:hover, .history:hover,
 .number:hover, .point:hover, .equal:hover,
 .operator:hover, .pos-neg:hover {
-  transform: scale(1.1);
+    box-shadow: 4px 2px rgba(0, 0, 0, 0.75);
+  transform: translateY(2px);
 }
 
 .operator-selected {
