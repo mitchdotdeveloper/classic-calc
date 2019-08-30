@@ -151,6 +151,10 @@ function updateHistory () {
   var logEntry = $('<p>');
   logEntry.text(calculationHistory.join(''));
   $('.log').append(logEntry)
+
+  var log = document.querySelector('.log');
+  log.scrollTop = log.scrollHeight - Math.floor($('.log').height());
+
   calculationHistory = [];
 }
 
@@ -195,5 +199,4 @@ function calculate(num1, num2, operator) {
     case '*': return number1 * number2;
     case '/': return number1 / number2;
   }
-
 }
