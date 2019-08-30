@@ -25,9 +25,10 @@ body {
 }
 
 .log {
-  flex-flow: column nowrap;
-  overflow: auto;
+  display: initial;
+  overflow-y: auto;
   text-align: center;
+  padding-top: 0;
   margin-left: -10vw;
   background-color: rgba(0, 0, 0, .75);
   transition: all 0.5s ease-in-out
@@ -57,8 +58,6 @@ body {
   font-family: 'Chathura', sans-serif;
   font-weight: 700;
   font-size: 11vh;
-  /* text-align: right; */
-  /* direction: rtl; */
   background-color: rgb(21, 20, 20);
 }
 
