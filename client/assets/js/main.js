@@ -23,14 +23,7 @@ function applyClickHandlers() {
 function clearButtonHandler(event) {
   var inputtedClear = $(event.currentTarget).text();
   if (inputtedClear === 'AC') {
-    calculationArray = [];
-    calculationHistory = [];
-    $('.log').empty();
-    $('.operator').removeClass('operator-selected');
-    stringNumberToPush = '';
-    calculationResult = null;
-    displayArray = [];
-    lastOperation = [];
+    allClear();
   } else {
     displayArray.pop();
     stringNumberToPush = stringNumberToPush.slice(0, -1);
@@ -38,6 +31,18 @@ function clearButtonHandler(event) {
   updateDisplay();
 }
 
+function allClear () {
+  calculationArray = [];
+  calculationHistory = [];
+  $('.log').empty();
+  $('.operator').removeClass('operator-selected');
+  stringNumberToPush = '';
+  calculationResult = null;
+  displayArray = [];
+  lastOperation = [];
+}
+
+// Toggles whether the history log shows or not
 function historyButtonHandler () {
   if ($('.log').hasClass('hide-log')) {
     $('.log').removeClass('hide-log');
@@ -51,6 +56,7 @@ function numberButtonHandler(event) {
 
   $('.operator').removeClass('operator-selected');
 
+  // Prevents inputting '..' or '4..'
   if (stringNumberToPush[stringNumberToPush.length - 1] !== '.' ||
     inputtedNumber !== '.') {
     stringNumberToPush += inputtedNumber;
@@ -65,12 +71,13 @@ function numberButtonHandler(event) {
 function operatorButtonHandler(event) {
   var inputtedOperator = $(event.currentTarget).text();
 
+  // Prevents inputting operators without preceeding number(s)
   if (!displayArray.length && !$('.operator').hasClass('operator-selected')) {
     return;
   }
-
   $('.operator').removeClass('operator-selected');
 
+  // If there is a preceeding operator - remove it
   if ('+-*/'.includes(calculationArray[calculationArray.length - 1])) {
     calculationArray.pop();
     calculationHistory.pop();
@@ -81,6 +88,7 @@ function operatorButtonHandler(event) {
   displayArray = [];
   updateDisplay();
 
+  // If there is a preceeding number - add it to the calculationArray
   if (stringNumberToPush) {
     calculationArray.push(stringNumberToPush);
     calculationHistory.push(stringNumberToPush + ' ');
@@ -93,18 +101,16 @@ function operatorButtonHandler(event) {
 }
 
 function negativeButtonHandler() {
-  if (stringNumberToPush[stringNumberToPush.length - 1] === '-') {
-    stringNumberToPush = '';
-    displayArray.pop();
-  } else if (stringNumberToPush[0] === '-') {
-    displayArray[0] *= -1;
-    stringNumberToPush = stringNumberToPush.slice(1);
-  } else if (stringNumberToPush[0] !== '-') {
+  // Toggle '-' <-> ''
+  if (!stringNumberToPush || !'-'.includes(stringNumberToPush[0])) {
     stringNumberToPush = '-' + stringNumberToPush;
     displayArray.unshift('-');
-  } else if (!stringNumberToPush.length || '+-*/'.includes(stringNumberToPush[stringNumberToPush.length - 1])) {
-    stringNumberToPush += '-';
-    displayArray.push('-');
+  } else if (stringNumberToPush[0] === '-') {
+    stringNumberToPush = stringNumberToPush.slice(1);
+    displayArray.splice(0, 1);
+  } else {
+    stringNumberToPush = stringNumberToPush.slice(1);
+    displayArray.push(stringNumberToPush);
   }
 
   updateDisplay();
@@ -114,29 +120,25 @@ function equalsButtonHandler() {
   if (!calculationArray.length && !lastOperation.length) {
     return;
   }
-
   $('.operator').removeClass('operator-selected');
+
 
   if (calculationArray.length && !lastOperation.length) {
     lastOperation.push(calculationArray[calculationArray.length - 1], stringNumberToPush);
   }
 
   if (calculationResult && lastOperation.length) {
-
     if (calculationArray[0] * -1 == calculationResult) {
       calculationResult *= -1;
     }
 
     calculationArray = [];
     calculationHistory = [];
-
     calculationHistory.push(calculationResult + ' ', lastOperation[0] + ' ', lastOperation[1]);
     calculationArray.push(calculationResult, lastOperation[0], lastOperation[1]);
-
   } else {
     calculationArray.push(stringNumberToPush);
     calculationHistory.push(stringNumberToPush + ' ');
-
   }
 
   stringNumberToPush = '';
